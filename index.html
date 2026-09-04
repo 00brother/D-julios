@@ -3,645 +3,590 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barbearia Premium | Corte Masculino</title>
+    <title>Barbearia | Corte Masculino</title>
     <style>
-        /* ============ RESET & VARIÁVEIS ============ */
+        /* ============ VARIÁVEIS DE CORES ============ */
         :root {
             --branco: #FFFFFF;
             --preto: #0A0A0A;
             --dourado: #D4AF37;
-            --dourado-claro: #F4E4A6;
-            --cinza-claro: #F8F8F8;
-            --cinza-medio: #444444;
-            --sombra: 0 20px 60px rgba(0,0,0,0.15);
-            --transicao: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --cinza-claro: #F5F5F5;
+            --cinza-medio: #666666;
+            --borda: #E0E0E0;
         }
 
+        /* ============ RESET ============ */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Arial', 'Helvetica', sans-serif;
             background-color: var(--branco);
             color: var(--preto);
-            line-height: 1.7;
-            overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        /* ============ TELA DE ABERTURA (SPLASH) ============ */
+        /* ============ TELA DE ABERTURA ============ */
         #splash {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100vh;
-            background: linear-gradient(135deg, #0A0A0A 0%, #1a1a1a 50%, #0A0A0A 100%);
+            background-color: var(--preto);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            transition: opacity 1s ease-in-out, visibility 1s;
             cursor: pointer;
         }
-        
-        #splash::before {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(212,175,55,0.1) 0%, transparent 70%);
-            animation: rotate 10s linear infinite;
-        }
-        
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
+
         #splash img {
-            width: min(500px, 80%);
+            width: min(400px, 80%);
             height: auto;
-            position: relative;
-            z-index: 1;
-            filter: drop-shadow(0 0 60px rgba(212, 175, 55, 0.6));
-            animation: pulse 3s ease-in-out infinite;
-        }
-        
-        #splash.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
         }
 
-        /* ============ BARRA DE NAVEGAÇÃO ============ */
+        #splash.hidden {
+            display: none;
+        }
+
+        /* ============ CABEÇALHO ============ */
         header {
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(20px);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            background-color: var(--branco);
+            border-bottom: 3px solid var(--dourado);
+            padding: 15px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 5%;
-            transition: var(--transicao);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
-        
-        header.scrolled {
-            padding: 10px 5%;
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
-        }
-        
+
         .logo-header {
             height: 60px;
             width: auto;
-            transition: var(--transicao);
-        }
-        
-        header.scrolled .logo-header {
-            height: 50px;
-        }
-        
-        .btn-zap-header {
-            background: var(--dourado);
-            color: var(--preto);
-            padding: 12px 30px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            transition: var(--transicao);
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            border: 2px solid var(--dourado);
-        }
-        
-        .btn-zap-header:hover {
-            background: transparent;
-            color: var(--dourado);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
         }
 
-        /* ============ BANNER PRINCIPAL ============ */
+        .btn-whatsapp-header {
+            background-color: var(--preto);
+            color: var(--dourado);
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 2px solid var(--preto);
+        }
+
+        .btn-whatsapp-header:hover {
+            background-color: var(--branco);
+            color: var(--preto);
+            border-color: var(--dourado);
+        }
+
+        /* ============ BANNER ============ */
         .banner {
-            background: linear-gradient(135deg, #0A0A0A 0%, #1a1a1a 100%);
-            min-height: 90vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .banner::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(212,175,55,0.15) 0%, transparent 50%);
-            animation: rotate 20s linear infinite;
-        }
-        
-        .banner-content {
+            background-color: var(--preto);
+            padding: 80px 20px;
             text-align: center;
-            position: relative;
-            z-index: 1;
+            border-bottom: 5px solid var(--dourado);
+        }
+
+        .banner img {
+            width: min(300px, 70%);
+            height: auto;
+            margin-bottom: 30px;
+        }
+
+        .banner h1 {
+            color: var(--branco);
+            font-size: 2rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .banner-destaque {
+            background-color: var(--dourado);
+            color: var(--preto);
+            display: inline-block;
+            padding: 15px 30px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* ============ SEÇÕES ============ */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
             padding: 60px 20px;
         }
-        
-        .banner img.logo-banner {
-            width: min(350px, 70%);
-            height: auto;
-            margin-bottom: 40px;
-            animation: float 4s ease-in-out infinite;
-            filter: drop-shadow(0 0 50px rgba(212, 175, 55, 0.4));
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-        
-        .banner-texto {
-            color: var(--branco);
-            font-size: 1.5rem;
-            margin-bottom: 30px;
-            letter-spacing: 2px;
-            font-weight: 300;
-        }
-        
-        .banner-destaque {
-            background: linear-gradient(135deg, var(--dourado) 0%, var(--dourado-claro) 100%);
-            color: var(--preto);
-            padding: 25px 40px;
-            border-radius: 20px;
-            font-weight: 900;
-            font-size: 1.8rem;
-            display: inline-block;
-            letter-spacing: 3px;
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 50px;
             text-transform: uppercase;
-            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.4);
-            animation: shine 3s infinite;
-        }
-        
-        @keyframes shine {
-            0%, 100% { box-shadow: 0 20px 40px rgba(212, 175, 55, 0.4); }
-            50% { box-shadow: 0 20px 60px rgba(212, 175, 55, 0.8); }
+            letter-spacing: 3px;
+            color: var(--preto);
         }
 
-        /* ============ SEÇÕES GERAIS ============ */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 80px 20px;
-        }
-        
-        .section-title {
-            font-size: 3rem;
-            text-align: center;
-            margin-bottom: 60px;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            position: relative;
-            font-weight: 900;
-        }
-        
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 5px;
-            background: linear-gradient(90deg, transparent, var(--dourado), transparent);
-            border-radius: 5px;
-        }
-        
         .section-title span {
             color: var(--dourado);
+        }
+
+        /* ============ DIVISOR ============ */
+        .divisor {
+            width: 100px;
+            height: 3px;
+            background-color: var(--dourado);
+            margin: 0 auto 40px;
         }
 
         /* ============ CARDS DE PREÇOS ============ */
         .precos {
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
-            gap: 40px;
+            gap: 30px;
+            flex-wrap: wrap;
         }
-        
+
         .card-preco {
-            background: var(--branco);
             border: 2px solid var(--preto);
-            padding: 50px 40px;
-            width: 350px;
+            padding: 40px 30px;
+            width: 300px;
             text-align: center;
-            border-radius: 30px;
-            transition: var(--transicao);
-            position: relative;
-            overflow: hidden;
+            background-color: var(--branco);
+            border-radius: 10px;
         }
-        
-        .card-preco::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(212,175,55,0.1), transparent);
-            transform: rotate(45deg);
-            transition: var(--transicao);
-        }
-        
-        .card-preco:hover::before {
-            animation: shine-card 1.5s;
-        }
-        
-        @keyframes shine-card {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
-        
-        .card-preco:hover {
-            transform: translateY(-15px);
-            box-shadow: var(--sombra);
-            border-color: var(--dourado);
-        }
-        
-        .card-icone {
-            font-size: 4rem;
-            margin-bottom: 20px;
-        }
-        
+
         .card-preco h3 {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-        
-        .preco {
-            font-size: 4.5rem;
-            font-weight: 900;
-            color: var(--dourado);
-            margin: 20px 0;
-            line-height: 1;
-        }
-        
-        .preco small {
             font-size: 1.5rem;
-            color: var(--preto);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-        
-        .card-preco p {
+
+        .preco-valor {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: var(--preto);
+            margin-bottom: 10px;
+        }
+
+        .preco-valor small {
+            font-size: 1.2rem;
+        }
+
+        .preco-descricao {
             color: var(--cinza-medio);
-            font-size: 1.1rem;
-            margin-top: 20px;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            border-top: 2px solid var(--dourado);
+            padding-top: 20px;
         }
 
         /* ============ SEÇÃO LOCALIZAÇÃO ============ */
         .localizacao {
-            background: var(--cinza-claro);
-            padding: 80px 0;
+            background-color: var(--cinza-claro);
+            padding: 60px 20px;
         }
-        
+
         .endereco-box {
-            background: var(--branco);
-            padding: 60px;
-            border-radius: 30px;
-            box-shadow: var(--sombra);
+            background-color: var(--branco);
+            border: 2px solid var(--preto);
+            padding: 40px;
             text-align: center;
-            position: relative;
-            overflow: hidden;
+            max-width: 600px;
+            margin: 0 auto;
+            border-radius: 10px;
         }
-        
-        .endereco-box::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 8px;
-            background: linear-gradient(90deg, var(--dourado), var(--preto), var(--dourado));
+
+        .endereco-titulo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
-        
-        .endereco-icone {
-            font-size: 5rem;
+
+        .endereco-completo {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--preto);
+        }
+
+        .endereco-referencia {
+            color: var(--cinza-medio);
+            font-size: 0.9rem;
             margin-bottom: 30px;
         }
-        
-        .endereco-titulo {
-            font-size: 2rem;
-            font-weight: 900;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-        
-        .endereco-texto {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            font-weight: 500;
-        }
-        
+
         .btn-mapa {
-            background: var(--preto);
-            color: var(--branco);
-            padding: 20px 50px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            display: inline-block;
-            margin-top: 40px;
-            transition: var(--transicao);
-            font-size: 1.1rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            border: 2px solid var(--preto);
-        }
-        
-        .btn-mapa:hover {
-            background: var(--dourado);
+            background-color: var(--dourado);
             color: var(--preto);
-            border-color: var(--dourado);
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+            padding: 15px 35px;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 5px;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+
+        .btn-mapa:hover {
+            background-color: var(--preto);
+            color: var(--dourado);
         }
 
         /* ============ SEÇÃO WHATSAPP ============ */
         .whatsapp-section {
-            background: linear-gradient(135deg, #0A0A0A 0%, #1a1a1a 100%);
-            padding: 80px 20px;
+            background-color: var(--branco);
             text-align: center;
-            position: relative;
-            overflow: hidden;
+            padding: 60px 20px;
         }
-        
-        .whatsapp-section::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(37, 211, 102, 0.1) 0%, transparent 70%);
-            animation: rotate 25s linear infinite;
+
+        .whatsapp-section p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: var(--cinza-medio);
         }
-        
-        .whatsapp-content {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .whatsapp-content h2 {
-            color: var(--branco);
-            font-size: 3rem;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-        }
-        
-        .whatsapp-content p {
-            color: var(--branco);
-            font-size: 1.3rem;
-            margin-bottom: 50px;
-        }
-        
+
         .btn-whatsapp {
-            background: #25D366;
-            color: white;
-            padding: 25px 60px;
-            border-radius: 50px;
+            background-color: var(--preto);
+            color: var(--dourado);
+            padding: 20px 50px;
             text-decoration: none;
-            font-weight: 900;
-            font-size: 1.3rem;
-            display: inline-block;
-            transition: var(--transicao);
-            border: 3px solid white;
-            box-shadow: 0 20px 40px rgba(37, 211, 102, 0.3);
-            letter-spacing: 2px;
+            font-weight: bold;
+            font-size: 1.2rem;
             text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 5px;
+            display: inline-block;
+            border: 3px solid var(--dourado);
         }
-        
+
         .btn-whatsapp:hover {
-            background: var(--branco);
-            color: #25D366;
-            border-color: #25D366;
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 30px 60px rgba(37, 211, 102, 0.5);
+            background-color: var(--dourado);
+            color: var(--preto);
         }
 
         /* ============ RODAPÉ ============ */
         footer {
-            background: var(--preto);
+            background-color: var(--preto);
             color: var(--branco);
-            text-align: center;
-            padding: 60px 20px;
-            position: relative;
+            padding: 50px 20px 30px;
+            border-top: 5px solid var(--dourado);
         }
-        
-        .footer-content {
-            max-width: 800px;
+
+        .footer-container {
+            max-width: 1000px;
             margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
         }
-        
-        .horario {
-            font-size: 2.5rem;
-            font-weight: 900;
-            letter-spacing: 3px;
-            margin: 20px 0;
+
+        .footer-col {
+            flex: 1;
+            min-width: 250px;
         }
-        
-        .horario span {
+
+        .footer-title {
             color: var(--dourado);
-        }
-        
-        .footer-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--dourado) 0%, var(--dourado-claro) 100%);
-            color: var(--preto);
-            padding: 15px 30px;
-            border-radius: 15px;
-            font-weight: 900;
-            font-size: 1.5rem;
-            margin: 30px 0;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-transform: uppercase;
             letter-spacing: 2px;
         }
-        
-        .creditos {
+
+        .footer-info {
+            list-style: none;
+        }
+
+        .footer-info li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-info .icon {
+            color: var(--dourado);
+            font-size: 1.2rem;
+            width: 25px;
+        }
+
+        .footer-info a {
+            color: var(--branco);
+            text-decoration: none;
+        }
+
+        .footer-info a:hover {
+            color: var(--dourado);
+        }
+
+        .footer-bottom {
+            text-align: center;
             margin-top: 40px;
-            opacity: 0.5;
-            font-size: 0.9rem;
+            padding-top: 20px;
+            border-top: 1px solid var(--cinza-medio);
+            font-size: 0.8rem;
+            color: var(--cinza-medio);
         }
 
         /* ============ RESPONSIVIDADE ============ */
         @media (max-width: 768px) {
             .section-title {
-                font-size: 2rem;
-                letter-spacing: 3px;
+                font-size: 1.5rem;
+                letter-spacing: 2px;
+                margin-bottom: 30px;
             }
-            
-            .banner-destaque {
+
+            .container {
+                padding: 40px 15px;
+            }
+
+            /* Cards lado a lado */
+            .precos {
+                gap: 10px;
+            }
+
+            .card-preco {
+                width: calc(50% - 5px);
+                padding: 20px 15px;
+            }
+
+            .card-preco h3 {
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+
+            .preco-valor {
+                font-size: 2rem;
+            }
+
+            .preco-valor small {
+                font-size: 0.9rem;
+            }
+
+            .preco-descricao {
+                font-size: 0.7rem;
+                padding-top: 10px;
+            }
+
+            .banner {
+                padding: 40px 15px;
+            }
+
+            .banner img {
+                width: min(200px, 60%);
+                margin-bottom: 20px;
+            }
+
+            .banner h1 {
                 font-size: 1.2rem;
-                padding: 15px 25px;
+            }
+
+            .banner-destaque {
+                font-size: 0.9rem;
+                padding: 10px 20px;
                 letter-spacing: 1px;
             }
-            
-            .banner-texto {
-                font-size: 1.1rem;
+
+            .logo-header {
+                height: 40px;
             }
-            
+
+            .btn-whatsapp-header {
+                padding: 8px 15px;
+                font-size: 0.7rem;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
             .card-preco {
-                width: 100%;
-                max-width: 350px;
-                padding: 30px 20px;
+                padding: 15px 10px;
             }
-            
-            .preco {
-                font-size: 3.5rem;
+
+            .card-preco h3 {
+                font-size: 0.8rem;
             }
-            
-            .endereco-box {
-                padding: 30px 20px;
+
+            .preco-valor {
+                font-size: 1.5rem;
             }
-            
-            .whatsapp-content h2 {
-                font-size: 2rem;
-            }
-            
-            .btn-whatsapp {
-                padding: 20px 40px;
-                font-size: 1rem;
-            }
-            
-            .horario {
-                font-size: 1.8rem;
+
+            .preco-descricao {
+                font-size: 0.6rem;
             }
         }
     </style>
 </head>
 <body>
 
-<!-- ========== TELA DE ABERTURA ========== -->
+<!-- TELA DE ABERTURA -->
 <div id="splash">
     <img src="logo.png" alt="Logo">
 </div>
 
-<!-- ========== MENU FIXO ========== -->
-<header id="header">
+<!-- CABEÇALHO -->
+<header>
     <img src="logo.png" alt="Logo" class="logo-header">
-    <a href="https://wa.me/55SEUNUMEROAQUI?text=Olá!%20Vim%20pelo%20site%20e%20quero%20cortar%20cabelo." class="btn-zap-header" target="_blank">
+    <a href="https://wa.me/55SEUNUMEROAQUI?text=Olá!%20Vim%20pelo%20site%20e%20quero%20cortar%20cabelo." class="btn-whatsapp-header" target="_blank">
         WhatsApp
     </a>
 </header>
 
-<!-- ========== BANNER PRINCIPAL ========== -->
+<!-- BANNER PRINCIPAL -->
 <section class="banner">
-    <div class="banner-content">
-        <img src="logo.png" alt="Logo" class="logo-banner">
-        <p class="banner-texto">Experiência Premium em Cortes Masculinos</p>
-        <div class="banner-destaque">
-            ✂️ CHEGOU, CORTOU! ✂️
-        </div>
+    <img src="logo.png" alt="Logo">
+    <h1>Cortes Masculinos com Excelência</h1>
+    <div class="banner-destaque">
+        Chegou, Cortou!
     </div>
 </section>
 
-<!-- ========== SERVIÇOS E PREÇOS ========== -->
+<!-- SERVIÇOS E PREÇOS -->
 <section class="container">
     <h2 class="section-title">Nossos <span>Serviços</span></h2>
+    <div class="divisor"></div>
     <div class="precos">
         <div class="card-preco">
-            <div class="card-icone">💈</div>
             <h3>Corte de Cabelo</h3>
-            <div class="preco">R$ 35<small>,00</small></div>
-            <p>Tesoura ou máquina<br>Finalização premium<br>Produtos importados</p>
+            <div class="preco-valor">R$ 35<small>,00</small></div>
+            <p class="preco-descricao">
+                Tesoura ou máquina<br>
+                Finalização profissional<br>
+                Produtos de qualidade
+            </p>
         </div>
         <div class="card-preco">
-            <div class="card-icone">🪒</div>
             <h3>Cabelo + Barba</h3>
-            <div class="preco">R$ 40<small>,00</small></div>
-            <p>Corte completo<br>Barba desenhada<br>Toalha quente</p>
+            <div class="preco-valor">R$ 40<small>,00</small></div>
+            <p class="preco-descricao">
+                Corte completo<br>
+                Barba desenhada<br>
+                Toalha quente
+            </p>
         </div>
     </div>
 </section>
 
-<!-- ========== LOCALIZAÇÃO ========== -->
+<!-- LOCALIZAÇÃO -->
 <section class="localizacao">
     <div class="container">
         <h2 class="section-title">Nossa <span>Localização</span></h2>
+        <div class="divisor"></div>
         <div class="endereco-box">
-            <div class="endereco-icone">📍</div>
-            <div class="endereco-titulo">Estamos Aqui</div>
-            <p class="endereco-texto">Rua Exemplo, 123 - Bairro - Cidade/UF</p>
-            <p style="font-size: 1.2rem; color: var(--cinza-medio);">Próximo ao ponto de referência</p>
-            <!-- Substitua o link abaixo pelo link real do Google Maps -->
+            <p class="endereco-titulo">Endereço</p>
+            <p class="endereco-completo">Rua Exemplo, 123 - Bairro - Cidade/UF</p>
+            <p class="endereco-referencia">Próximo ao ponto de referência</p>
             <a href="https://www.google.com/maps/search/?api=1&query=SUA+LOCALIZACAO" class="btn-mapa" target="_blank">
-                🗺️ Ver no Google Maps
+                Ver no Google Maps
             </a>
         </div>
     </div>
 </section>
 
-<!-- ========== SEÇÃO WHATSAPP ========== -->
+<!-- WHATSAPP -->
 <section class="whatsapp-section">
-    <div class="whatsapp-content">
-        <h2>Fale Conosco</h2>
-        <p>Atendimento rápido e direto pelo WhatsApp</p>
-        <!-- Substitua SEUNUMEROAQUI pelo número com DDD, ex: 5511999999999 -->
+    <div class="container">
+        <h2 class="section-title">Fale <span>Conosco</span></h2>
+        <div class="divisor"></div>
+        <p>Tire dúvidas ou peça informações pelo WhatsApp</p>
         <a href="https://wa.me/55SEUNUMEROAQUI?text=Olá!%20Quero%20cortar%20cabelo%20hoje.%20Está%20aberto%3F" class="btn-whatsapp" target="_blank">
-            💬 Chamar no WhatsApp
+            Chamar no WhatsApp
         </a>
     </div>
 </section>
 
-<!-- ========== RODAPÉ ========== -->
+<!-- RODAPÉ -->
 <footer>
-    <div class="footer-content">
-        <p style="font-size: 1.5rem; margin-bottom: 30px;">⏰ HORÁRIO DE FUNCIONAMENTO</p>
-        <p class="horario">Segunda a <span>Sábado</span></p>
-        <p style="margin: 20px 0; font-size: 1.2rem;">Chegou, Cortou - Sem agendamento</p>
-        <div class="footer-badge">
-            100% PRESENCIAL
+    <div class="footer-container">
+        <div class="footer-col">
+            <h3 class="footer-title">Horário de Funcionamento</h3>
+            <ul class="footer-info">
+                <li>
+                    <span class="icon">🕐</span>
+                    <span>Segunda a Sábado</span>
+                </li>
+                <li>
+                    <span class="icon">✂️</span>
+                    <span>Chegou, Cortou! Sem agendamento</span>
+                </li>
+                <li>
+                    <span class="icon">💈</span>
+                    <span>Atendimento 100% Presencial</span>
+                </li>
+            </ul>
         </div>
-        <p style="margin-top: 30px; font-style: italic; font-size: 1.3rem;">"Aqui o cliente não espera, ele chega e sai na régua."</p>
-        <p class="creditos">© 2024 - Todos os direitos reservados</p>
+        
+        <div class="footer-col">
+            <h3 class="footer-title">Contato</h3>
+            <ul class="footer-info">
+                <li>
+                    <span class="icon">📱</span>
+                    <a href="https://wa.me/55SEUNUMEROAQUI" target="_blank">(11) 99999-9999</a>
+                </li>
+                <li>
+                    <span class="icon">📧</span>
+                    <a href="mailto:contato@barbearia.com">contato@barbearia.com</a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="footer-col">
+            <h3 class="footer-title">Endereço</h3>
+            <ul class="footer-info">
+                <li>
+                    <span class="icon">📍</span>
+                    <span>Rua Exemplo, 123</span>
+                </li>
+                <li>
+                    <span class="icon">🏙️</span>
+                    <span>Bairro - Cidade/UF</span>
+                </li>
+                <li>
+                    <span class="icon">🗺️</span>
+                    <a href="https://www.google.com/maps/search/?api=1&query=SUA+LOCALIZACAO" target="_blank">Ver no mapa</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>&copy; 2024 - Todos os direitos reservados. Desenvolvido com excelência.</p>
     </div>
 </footer>
 
 <script>
-    // ========== CONTROLE DA TELA DE ABERTURA ==========
+    // Tela de abertura
     window.addEventListener('load', function() {
-        setTimeout(() => {
+        setTimeout(function() {
             document.getElementById('splash').classList.add('hidden');
-        }, 3000);
+        }, 2000);
     });
 
     document.getElementById('splash').addEventListener('click', function() {
         this.classList.add('hidden');
-    });
-
-    // ========== EFEITO SCROLL NO MENU ==========
-    window.addEventListener('scroll', function() {
-        const header = document.getElementById('header');
-        if (window.scrollY > 50) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
     });
 </script>
 
