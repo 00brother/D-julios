@@ -1,1178 +1,365 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barbearia Premium - Grooming Experience</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>Barbearia do Chefe | Corte Masculino</title>
     <style>
+        /* ============ RESET & VARIÁVEIS ============ */
         :root {
-            --branco: #ffffff;
-            --preto: #0a0a0a;
-            --preto-suave: #1a1a1a;
-            --dourado: #c9a962;
-            --dourado-claro: #e0c88a;
-            --cinza-claro: #f8f8f8;
-            --cinza-medio: #e8e8e8;
-            --sombra: 0 10px 40px rgba(0,0,0,0.1);
-            --transicao: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --branco: #FFFFFF;      /* 60% */
+            --preto: #111111;       /* 30% */
+            --dourado: #D4AF37;     /* 10% (Dourado verdadeiro) */
+            --cinza-claro: #F5F5F5;
+            --cinza-medio: #333333;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-
-        html {
             scroll-behavior: smooth;
-            overflow-x: hidden;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--branco);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--branco);
             color: var(--preto);
-            line-height: 1.7;
-            overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        /* Preloader */
-        .preloader {
+        /* ============ TELA DE ABERTURA (SPLASH) ============ */
+        #splash {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background: var(--preto);
+            height: 100vh;
+            background-color: var(--preto);
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 10000;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
+            z-index: 9999;
+            transition: opacity 0.8s ease-in-out, visibility 0.8s;
         }
-
-        .preloader.hidden {
+        #splash img {
+            width: min(400px, 80%);
+            height: auto;
+            filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.6));
+            animation: pulse 2s infinite;
+        }
+        #splash.hidden {
             opacity: 0;
             visibility: hidden;
+            pointer-events: none;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(0.95); }
         }
 
-        .preloader img {
-            width: 120px;
-            height: 120px;
-            object-fit: contain;
-            animation: preloaderPulse 2s infinite;
-            margin-bottom: 30px;
-        }
-
-        .preloader-bar {
-            width: 200px;
-            height: 3px;
-            background: var(--preto-suave);
-            border-radius: 3px;
-            overflow: hidden;
-        }
-
-        .preloader-bar::after {
-            content: '';
-            display: block;
-            width: 0%;
-            height: 100%;
-            background: var(--dourado);
-            animation: loading 2s ease-in-out forwards;
-            border-radius: 3px;
-        }
-
-        @keyframes preloaderPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        @keyframes loading {
-            0% { width: 0%; }
-            100% { width: 100%; }
-        }
-
-        /* Header */
-        .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 0.8rem 5%;
+        /* ============ BARRA DE NAVEGAÇÃO ============ */
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-bottom: 3px solid var(--dourado);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            transition: var(--transicao);
-            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+            padding: 10px 5%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-
-        .header.scrolled {
-            padding: 0.5rem 5%;
-            box-shadow: 0 5px 30px rgba(0,0,0,0.1);
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .logo {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-            transition: var(--transicao);
-        }
-
-        .btn-agendar {
-            background: linear-gradient(135deg, var(--dourado) 0%, var(--dourado-claro) 100%);
-            color: var(--preto);
-            padding: 0.9rem 2rem;
-            border: none;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transicao);
-            position: relative;
-            overflow: hidden;
-            font-size: 0.95rem;
-        }
-
-        .btn-agendar::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: 0.5s;
-        }
-
-        .btn-agendar:hover::before {
-            left: 100%;
-        }
-
-        .btn-agendar:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(201,169,98,0.4);
-            background: var(--preto);
-            color: var(--dourado);
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            background: linear-gradient(135deg, var(--preto) 0%, #1a1a1a 50%, var(--preto-suave) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(201,169,98,0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 50%, rgba(201,169,98,0.1) 0%, transparent 50%);
-            animation: heroGlow 10s ease-in-out infinite;
-        }
-
-        @keyframes heroGlow {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            padding: 0 5%;
-            animation: fadeInUp 1.5s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hero-badge {
-            display: inline-block;
-            background: rgba(201,169,98,0.1);
-            border: 1px solid var(--dourado);
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            color: var(--dourado);
-            font-size: 0.9rem;
-            margin-bottom: 2rem;
-            letter-spacing: 2px;
-        }
-
-        .hero h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 5rem;
-            font-weight: 900;
-            color: var(--branco);
-            margin-bottom: 1.5rem;
-            line-height: 1.1;
-        }
-
-        .hero h1 span {
-            color: var(--dourado);
-            position: relative;
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            color: var(--cinza-medio);
-            margin-bottom: 2.5rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--dourado);
-            color: var(--dourado);
-            padding: 0.9rem 2rem;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transicao);
-        }
-
-        .btn-outline:hover {
-            background: var(--dourado);
-            color: var(--preto);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(201,169,98,0.4);
-        }
-
-        /* Services Section */
-        .services {
-            padding: 6rem 5%;
-            background: var(--cinza-claro);
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .section-subtitle {
-            color: var(--dourado);
-            font-weight: 600;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 3rem;
-            font-weight: 900;
-            color: var(--preto);
-            position: relative;
-            display: inline-block;
-        }
-
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 3px;
-            background: var(--dourado);
-            margin: 1rem auto 0;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .service-card {
-            background: var(--branco);
-            padding: 2.5rem 2rem;
-            border-radius: 15px;
-            text-align: center;
-            transition: var(--transicao);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: var(--dourado);
-            transform: scaleX(0);
-            transition: var(--transicao);
-        }
-
-        .service-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--sombra);
-        }
-
-        .service-icon {
-            width: 80px;
-            height: 80px;
-            background: rgba(201,169,98,0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.5rem;
-            font-size: 2.5rem;
-            color: var(--dourado);
-            transition: var(--transicao);
-        }
-
-        .service-card:hover .service-icon {
-            background: var(--dourado);
-            color: var(--branco);
-            transform: rotate(360deg);
-        }
-
-        .service-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        .service-card p {
-            color: #666;
-            font-size: 0.95rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .price {
-            display: inline-block;
-            background: var(--preto);
-            color: var(--dourado);
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.5rem;
-        }
-
-        /* Express Banner */
-        .express-banner {
-            background: linear-gradient(135deg, var(--dourado) 0%, var(--dourado-claro) 100%);
-            padding: 2rem 5%;
-            text-align: center;
-            margin: 2rem 0;
-        }
-
-        .express-banner h3 {
-            font-size: 2rem;
-            font-weight: 900;
-            color: var(--preto);
-            margin-bottom: 0.5rem;
-        }
-
-        .express-banner p {
-            font-size: 1.1rem;
-            color: var(--preto);
-        }
-
-        /* Gallery Section */
-        .gallery {
-            padding: 6rem 5%;
-            background: var(--branco);
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 1.5rem;
-            margin-top: 3rem;
-        }
-
-        .gallery-item {
-            position: relative;
-            overflow: hidden;
-            border-radius: 15px;
-            cursor: pointer;
-            aspect-ratio: 3/4;
-            background: var(--preto);
-            transition: var(--transicao);
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s ease;
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.15);
-        }
-
-        .gallery-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-            color: var(--branco);
-            padding: 2rem;
-            transform: translateY(100%);
-            transition: var(--transicao);
-        }
-
-        .gallery-item:hover .gallery-overlay {
-            transform: translateY(0);
-        }
-
-        .gallery-overlay h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            color: var(--dourado);
-        }
-
-        /* Testimonials */
-        .testimonials {
-            padding: 6rem 5%;
-            background: var(--preto);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .testimonials::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 50% 50%, rgba(201,169,98,0.05) 0%, transparent 70%);
-        }
-
-        .testimonials .section-title {
-            color: var(--branco);
-        }
-
-        .testimonial-slider {
-            position: relative;
-            max-width: 800px;
-            margin: 0 auto;
-            overflow: hidden;
-        }
-
-        .testimonial-slide {
-            display: none;
-            animation: slideIn 0.6s ease;
-        }
-
-        .testimonial-slide.active {
-            display: block;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .testimonial-card {
-            background: var(--preto-suave);
-            padding: 3rem;
-            border-radius: 20px;
-            border: 1px solid rgba(201,169,98,0.3);
-            text-align: center;
-        }
-
-        .testimonial-card .quote-icon {
-            font-size: 3rem;
-            color: var(--dourado);
-            margin-bottom: 1rem;
-        }
-
-        .testimonial-card p {
-            color: var(--cinza-medio);
-            font-size: 1.1rem;
-            font-style: italic;
-            margin-bottom: 1.5rem;
-        }
-
-        .testimonial-author {
-            color: var(--dourado);
-            font-weight: 600;
-        }
-
-        .testimonial-controls {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .testimonial-btn {
-            width: 50px;
+        .logo-header {
             height: 50px;
-            background: var(--preto-suave);
-            border: 1px solid var(--dourado);
-            color: var(--dourado);
-            border-radius: 50%;
-            cursor: pointer;
-            transition: var(--transicao);
         }
-
-        .testimonial-btn:hover {
-            background: var(--dourado);
+        .btn-zap-header {
+            background-color: var(--dourado);
             color: var(--preto);
-        }
-
-        /* Booking Section */
-        .booking {
-            padding: 6rem 5%;
-            background: var(--branco);
-        }
-
-        .booking-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .booking-info {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .booking-info h3 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            font-family: 'Playfair Display', serif;
-        }
-
-        .booking-feature {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .booking-feature i {
-            color: var(--dourado);
-            font-size: 1.5rem;
-        }
-
-        .booking-form {
-            background: var(--cinza-claro);
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: var(--sombra);
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid var(--cinza-medio);
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: var(--transicao);
-            font-family: 'Poppins', sans-serif;
-            background: var(--branco);
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--dourado);
-            box-shadow: 0 0 0 3px rgba(201,169,98,0.1);
-        }
-
-        /* Contact Section */
-        .contact {
-            padding: 6rem 5%;
-            background: var(--cinza-claro);
-        }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .contact-item i {
-            width: 50px;
-            height: 50px;
-            background: var(--branco);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--dourado);
-            font-size: 1.2rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .contact-form {
-            background: var(--branco);
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: var(--sombra);
-        }
-
-        /* Footer */
-        .footer {
-            background: var(--preto);
-            color: var(--branco);
-            padding: 3rem 5% 1rem;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding-bottom: 2rem;
-        }
-
-        .footer-section h4 {
-            color: var(--dourado);
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-        }
-
-        .footer-section p,
-        .footer-section a {
-            color: var(--cinza-medio);
+            padding: 10px 20px;
+            border-radius: 30px;
             text-decoration: none;
-            display: block;
-            margin-bottom: 0.5rem;
-            transition: var(--transicao);
+            font-weight: bold;
+            transition: 0.3s;
         }
-
-        .footer-section a:hover {
+        .btn-zap-header:hover {
+            background-color: var(--preto);
             color: var(--dourado);
         }
 
-        .footer-bottom {
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 2rem;
+        /* ============ SEÇÕES GERAIS ============ */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        h2 {
+            font-size: 2.5rem;
             text-align: center;
-            color: var(--cinza-medio);
-            font-size: 0.9rem;
-        }
-
-        /* Back to Top */
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background: var(--dourado);
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
             color: var(--preto);
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            transition: var(--transicao);
-            z-index: 999;
         }
-
-        .back-to-top.show {
-            display: flex;
-            animation: fadeInUp 0.3s ease;
-        }
-
-        .back-to-top:hover {
-            background: var(--preto);
+        h2 span {
             color: var(--dourado);
-            transform: translateY(-5px);
         }
 
-        /* Toast Notification */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: var(--preto);
+        /* ============ SEÇÃO HERO (O BARBEIRO) ============ */
+        .hero {
+            background-color: var(--branco);
+            text-align: center;
+            padding: 60px 20px;
+        }
+        .hero img.logo-grande {
+            width: 180px;
+            margin-bottom: 20px;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            color: var(--cinza-medio);
+        }
+        .destaque-sem-agenda {
+            background-color: var(--preto);
             color: var(--branco);
-            padding: 1rem 2rem;
+            padding: 15px;
             border-radius: 10px;
-            border-left: 4px solid var(--dourado);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            transition: var(--transicao);
-            z-index: 2000;
+            font-weight: bold;
+            font-size: 1.5rem;
+            display: inline-block;
+            border-left: 6px solid var(--dourado);
         }
 
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
+        /* ============ SEÇÃO PREÇOS ============ */
+        .precos {
+            background-color: var(--branco);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+        .card-preco {
+            border: 2px solid var(--preto);
+            padding: 30px;
+            width: 250px;
+            text-align: center;
+            border-radius: 10px;
+            transition: 0.3s;
+            background-color: var(--branco);
+        }
+        .card-preco:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+            border-color: var(--dourado);
+        }
+        .card-preco h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        .preco {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--dourado);
+        }
+        .preco small {
+            font-size: 1rem;
+            color: var(--preto);
         }
 
-        /* Responsive */
-        @media (max-width: 968px) {
-            .booking-container,
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
+        /* ============ SEÇÃO LOCALIZAÇÃO ============ */
+        .localizacao {
+            background-color: var(--cinza-claro);
+            text-align: center;
+        }
+        .endereco-box {
+            background-color: var(--branco);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            border-bottom: 5px solid var(--dourado);
+        }
+        .btn-mapa {
+            background-color: var(--preto);
+            color: var(--branco);
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 15px;
+            transition: 0.3s;
+        }
+        .btn-mapa:hover {
+            background-color: var(--dourado);
+            color: var(--preto);
         }
 
+        /* ============ RODAPÉ / HORÁRIOS ============ */
+        footer {
+            background-color: var(--preto);
+            color: var(--branco);
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 5px solid var(--dourado);
+        }
+        .horario {
+            font-size: 1.8rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .horario span {
+            color: var(--dourado);
+        }
+        .btn-whatsapp {
+            background-color: #25D366;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: inline-block;
+            margin-top: 20px;
+            transition: 0.3s;
+            border: 2px solid white;
+        }
+        .btn-whatsapp:hover {
+            background-color: var(--branco);
+            color: #25D366;
+            border-color: #25D366;
+        }
+        .creditos {
+            margin-top: 30px;
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+
+        /* ============ RESPONSIVIDADE ============ */
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 3rem;
+            h2 {
+                font-size: 1.8rem;
             }
-
-            .section-title {
+            .hero h1 {
                 font-size: 2rem;
             }
-
-            .btn-agendar {
-                padding: 0.7rem 1.5rem;
-                font-size: 0.9rem;
+            .card-preco {
+                width: 100%;
+                max-width: 300px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Preloader -->
-    <div class="preloader" id="preloader">
-        <img src="logo.png" alt="Logo">
-        <div class="preloader-bar"></div>
-    </div>
 
-    <!-- Header -->
-    <header class="header" id="header">
-        <div class="logo-container">
-            <img src="logo.png" alt="Logo" class="logo">
-        </div>
-        <button class="btn-agendar" onclick="scrollToBooking()">
-            <i class="fas fa-calendar-alt"></i> Agendar Horário
-        </button>
-    </header>
+<!-- ========== TELA DE ABERTURA ========== -->
+<div id="splash">
+    <img src="logo.png" alt="Logo do Salão">
+    <!-- Se quiser um botão manual, descomente abaixo -->
+    <!-- <button onclick="fecharSplash()">Entrar</button> -->
+</div>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <div class="hero-badge">
-                <i class="fas fa-star"></i> PREMIUM GROOMING EXPERIENCE
-            </div>
-            <h1>EXCELÊNCIA EM<br><span>ESTILO MASCULINO</span></h1>
-            <p>Transforme sua aparência com os melhores profissionais da cidade. Cortes modernos, barba perfeita e atendimento exclusivo.</p>
-            <div class="hero-buttons">
-                <button class="btn-agendar" onclick="scrollToBooking()">
-                    <i class="fas fa-scissors"></i> Agendar Agora
-                </button>
-                <button class="btn-outline" onclick="scrollToServices()">
-                    Ver Serviços
-                </button>
-            </div>
+<!-- ========== MENU FIXO ========== -->
+<header>
+    <img src="logo.png" alt="Logo" class="logo-header">
+    <a href="https://wa.me/55SEUNUMEROAQUI?text=Olá!%20Vim%20pelo%20site%20e%20quero%20cortar%20cabelo." class="btn-zap-header" target="_blank">
+        📱 Agendar Agora
+    </a>
+</header>
+
+<!-- ========== CONTEÚDO PRINCIPAL ========== -->
+<main>
+    <!-- HERO: O Barbeiro -->
+    <section class="hero">
+        <img src="logo.png" alt="Logo do Salão" class="logo-grande">
+        <h1>Barbearia do Chefe</h1>
+        <p>Atendimento exclusivo com <strong>apenas 1 barbeiro profissional</strong>.<br>Foco total no seu estilo, sem pressa e sem fila de espera.</p>
+        <div class="destaque-sem-agenda">
+            ✂️ CHEGOU, CORTOU! (Sem agendamento)
         </div>
     </section>
 
-    <!-- Express Banner -->
-    <section class="express-banner">
-        <h3>⚡ Chegou, Cortou</h3>
-        <p>Atendimento expresso para quem não tem tempo a perder - R$ 35,00</p>
-    </section>
-
-    <!-- Services Section -->
-    <section class="services" id="services">
-        <div class="section-header">
-            <div class="section-subtitle">NOSSOS SERVIÇOS</div>
-            <h2 class="section-title">Tratamento Premium</h2>
-        </div>
-        <div class="services-grid">
-            <div class="service-card" onclick="scrollToBooking()">
-                <div class="service-icon">💈</div>
+    <!-- SERVIÇOS E PREÇOS -->
+    <section class="container">
+        <h2>Valores <span>Transparentes</span></h2>
+        <div class="precos">
+            <div class="card-preco">
                 <h3>Corte de Cabelo</h3>
-                <p>Corte tradicional com técnicas refinadas e acabamento premium</p>
-                <span class="price">R$ 35,00</span>
+                <div class="preco">R$ 35<small>,00</small></div>
+                <p>Tesoura ou máquina, com finalização.</p>
             </div>
-            <div class="service-card" onclick="scrollToBooking()">
-                <div class="service-icon">💈</div>
-                <h3>Corte de Cabelo + Barba</h3>
-                <p>Combo completo com corte de cabelo e barba modelada</p>
-                <span class="price">R$ 40,00</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- Gallery Section -->
-    <section class="gallery" id="gallery">
-        <div class="section-header">
-            <div class="section-subtitle">NOSSA GALERIA</div>
-            <h2 class="section-title">Trabalhos Realizados</h2>
-        </div>
-        <div class="gallery-grid">
-            <div class="gallery-item">
-                <img src="barber1.jpg" alt="Corte de cabelo masculino moderno" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=&quot;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:white;font-size:3rem;background:linear-gradient(135deg,#1a1a1a,#0a0a0a);&quot;>💈</div>'">
-                <div class="gallery-overlay">
-                    <h3>Corte Executivo</h3>
-                    <p>Estilo sofisticado para o dia a dia</p>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="barber2.jpg" alt="Barba modelada profissional" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=&quot;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:white;font-size:3rem;background:linear-gradient(135deg,#1a1a1a,#0a0a0a);&quot;>🪒</div>'">
-                <div class="gallery-overlay">
-                    <h3>Barba Premium</h3>
-                    <p>Modelagem e cuidados especiais</p>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="barber3.jpg" alt="Ambiente do salão masculino" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=&quot;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:white;font-size:3rem;background:linear-gradient(135deg,#1a1a1a,#0a0a0a);&quot;>✨</div>'">
-                <div class="gallery-overlay">
-                    <h3>Nosso Espaço</h3>
-                    <p>Ambiente premium e confortável</p>
-                </div>
+            <div class="card-preco">
+                <h3>Cabelo + Barba</h3>
+                <div class="preco">R$ 40<small>,00</small></div>
+                <p>O combo completo para o visual afiado.</p>
             </div>
         </div>
     </section>
 
-    <!-- Testimonials Section -->
-    <section class="testimonials">
-        <div class="section-header">
-            <div class="section-subtitle">DEPOIMENTOS</div>
-            <h2 class="section-title">O Que Dizem Nossos Clientes</h2>
-        </div>
-        <div class="testimonial-slider">
-            <div class="testimonial-slide active">
-                <div class="testimonial-card">
-                    <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
-                    <p>"Melhor barbearia que já fui! Atendimento impecável, profissionais super atenciosos e o resultado sempre perfeito. Recomendo de olhos fechados!"</p>
-                    <span class="testimonial-author">João Pereira - Cliente há 5 anos</span>
-                </div>
-            </div>
-            <div class="testimonial-slide">
-                <div class="testimonial-card">
-                    <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
-                    <p>"Ambiente sofisticado, produtos de alta qualidade e um atendimento que faz você se sentir em casa. O combo premium vale cada centavo!"</p>
-                    <span class="testimonial-author">Marcos Oliveira - Cliente VIP</span>
-                </div>
-            </div>
-            <div class="testimonial-slide">
-                <div class="testimonial-card">
-                    <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
-                    <p>"Profissionais verdadeiramente talentosos. Sempre saio do salão me sentindo renovado e confiante. A melhor experiência de grooming da cidade!"</p>
-                    <span class="testimonial-author">Rafael Costa - Cliente regular</span>
-                </div>
-            </div>
-        </div>
-        <div class="testimonial-controls">
-            <button class="testimonial-btn" onclick="changeTestimonial(-1)">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="testimonial-btn" onclick="changeTestimonial(1)">
-                <i class="fas fa-chevron-right"></i>
-            </button>
-        </div>
-    </section>
-
-    <!-- Booking Section -->
-    <section class="booking" id="booking">
-        <div class="section-header">
-            <div class="section-subtitle">AGENDAMENTO</div>
-            <h2 class="section-title">Agende seu Atendimento</h2>
-        </div>
-        <div class="booking-container">
-            <div class="booking-form">
-                <form id="bookingForm">
-                    <div class="form-group">
-                        <label for="bookingName"><i class="fas fa-user"></i> Nome Completo:</label>
-                        <input type="text" id="bookingName" required placeholder="Digite seu nome">
-                    </div>
-                    <div class="form-group">
-                        <label for="bookingPhone"><i class="fas fa-phone"></i> Telefone:</label>
-                        <input type="tel" id="bookingPhone" required placeholder="(11) 99999-9999">
-                    </div>
-                    <div class="form-group">
-                        <label for="bookingService"><i class="fas fa-cut"></i> Serviço:</label>
-                        <select id="bookingService" required>
-                            <option value="">Selecione o serviço...</option>
-                            <option value="corte">Corte de Cabelo - R$ 35,00</option>
-                            <option value="combo">Corte de Cabelo + Barba - R$ 40,00</option>
-                            <option value="expresso">Chegou, Cortou - R$ 35,00</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn-agendar" style="width: 100%;">
-                        <i class="fas fa-check"></i> Confirmar Agendamento
-                    </button>
-                </form>
+    <!-- LOCALIZAÇÃO -->
+    <section class="localizacao">
+        <div class="container">
+            <h2>Onde <span>Estamos</span></h2>
+            <div class="endereco-box">
+                <p style="font-size: 1.5rem; font-weight: bold;">📍 Endereço do Salão</p>
+                <p style="font-size: 1.2rem;">Rua Exemplo, 123 - Bairro - Cidade/UF</p>
+                <p style="font-size: 1rem; margin-top: 10px;">Próximo ao ponto de referência.</p>
+                <!-- Substitua o link abaixo pelo link real do Google Maps -->
+                <a href="https://www.google.com/maps/search/?api=1&query=SUA+LOCALIZACAO" class="btn-mapa" target="_blank">
+                    🗺️ Ver no Google Maps
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section class="contact" id="contact">
-        <div class="section-header">
-            <div class="section-subtitle">CONTATO</div>
-            <h2 class="section-title">Fale Conosco</h2>
-        </div>
-        <div class="contact-grid">
-            <div class="contact-info">
-                <div class="contact-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <div>
-                        <h4>Endereço</h4>
-                        <p>Av. Principal, 123 - Centro<br>São Paulo - SP</p>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-phone"></i>
-                    <div>
-                        <h4>Telefone</h4>
-                        <p>(11) 99999-9999<br>(11) 3333-3333</p>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-envelope"></i>
-                    <div>
-                        <h4>E-mail</h4>
-                        <p>contato@barbearia.com.br</p>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-clock"></i>
-                    <div>
-                        <h4>Horário de Funcionamento</h4>
-                        <p>Segunda a Sexta: 08h às 18h<br>Sábado: 07h às 17h</p>
-                    </div>
-                </div>
-            </div>
-            <div class="contact-form">
-                <form id="contactForm">
-                    <div class="form-group">
-                        <label for="contactName">Nome:</label>
-                        <input type="text" id="contactName" required placeholder="Seu nome">
-                    </div>
-                    <div class="form-group">
-                        <label for="contactEmail">E-mail:</label>
-                        <input type="email" id="contactEmail" required placeholder="seu@email.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="contactSubject">Assunto:</label>
-                        <input type="text" id="contactSubject" required placeholder="Assunto da mensagem">
-                    </div>
-                    <div class="form-group">
-                        <label for="contactMessage">Mensagem:</label>
-                        <textarea id="contactMessage" rows="5" required placeholder="Escreva sua mensagem..."></textarea>
-                    </div>
-                    <button type="submit" class="btn-agendar" style="width: 100%;">
-                        <i class="fas fa-paper-plane"></i> Enviar Mensagem
-                    </button>
-                </form>
-            </div>
-        </div>
+    <!-- CHAMADA PARA WHATSAPP -->
+    <section class="container" style="text-align: center;">
+        <h2>Prefere <span>Mandar Mensagem?</span></h2>
+        <p style="font-size: 1.2rem; margin-bottom: 30px;">Clique no botão abaixo e fale direto com o barbeiro no WhatsApp.<br> Tire dúvidas ou peça a localização.</p>
+        <!-- Substitua SEUNUMEROAQUI pelo número com DDD, ex: 5511999999999 -->
+        <a href="https://wa.me/55SEUNUMEROAQUI?text=Olá!%20Quero%20cortar%20cabelo%20hoje.%20Está%20aberto%3F" class="btn-whatsapp" target="_blank">
+            💬 Chamar no WhatsApp
+        </a>
     </section>
+</main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Sobre Nós</h4>
-                <p>Excelência em estilo masculino desde 2009. Proporcionamos experiências únicas de grooming para homens que valorizam qualidade e sofisticação.</p>
-            </div>
-            <div class="footer-section">
-                <h4>Serviços</h4>
-                <a href="#services">Corte de Cabelo - R$ 35,00</a>
-                <a href="#services">Corte de Cabelo + Barba - R$ 40,00</a>
-                <a href="#services">Chegou, Cortou - R$ 35,00</a>
-            </div>
-            <div class="footer-section">
-                <h4>Redes Sociais</h4>
-                <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
-                <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
-                <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-                <a href="#"><i class="fab fa-youtube"></i> YouTube</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 Barbearia Premium - Todos os direitos reservados | Desenvolvido com ❤️</p>
-        </div>
-    </footer>
+<!-- RODAPÉ -->
+<footer>
+    <p style="font-size: 1.5rem; margin-bottom: 10px;">⏰ Horário de Funcionamento</p>
+    <p class="horario">Segunda a <span>Sábado</span></p>
+    <p style="margin-bottom: 20px;">(Chegou, Cortou - Sem agendamento)</p>
+    <p style="font-size: 2rem; font-weight: 900; color: var(--dourado);">100% PRESENCIAL</p>
+    <p style="margin-top: 20px; font-style: italic;">"Aqui o cliente não espera, ele chega e sai na régua."</p>
+    <p class="creditos">© 2023 Barbearia do Chefe. Todos os direitos reservados.</p>
+</footer>
 
-    <!-- Back to Top Button -->
-    <button class="back-to-top" id="backToTop" onclick="scrollToTop()">
-        <i class="fas fa-chevron-up"></i>
-    </button>
+<script>
+    // ========== CONTROLE DA TELA DE ABERTURA ==========
+    window.addEventListener('load', function() {
+        // A splash fica visível por 2.5 segundos e depois some automaticamente
+        setTimeout(() => {
+            document.getElementById('splash').classList.add('hidden');
+        }, 2500);
+    });
 
-    <!-- Toast Notification -->
-    <div class="toast" id="toast"></div>
+    // Função caso queira usar botão manual
+    function fecharSplash() {
+        document.getElementById('splash').classList.add('hidden');
+    }
 
-    <script>
-        // Preloader
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                document.getElementById('preloader').classList.add('hidden');
-            }, 2500);
-        });
+    // (Opcional) Fechar a splash se o usuário clicar em qualquer lugar
+    document.getElementById('splash').addEventListener('click', function() {
+        this.classList.add('hidden');
+    });
+</script>
 
-        // Header Scroll Effect
-        window.addEventListener('scroll', function() {
-            const header = document.getElementById('header');
-            const backToTop = document.getElementById('backToTop');
-            
-            if (window.scrollY > 100) {
-                header.classList.add('scrolled');
-                backToTop.classList.add('show');
-            } else {
-                header.classList.remove('scrolled');
-                backToTop.classList.remove('show');
-            }
-        });
-
-        // Smooth Scroll Functions
-        function scrollToBooking() {
-            document.getElementById('booking').scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-
-        function scrollToServices() {
-            document.getElementById('services').scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-
-        function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }
-
-        // Testimonial Slider
-        let currentTestimonial = 0;
-        const testimonials = document.querySelectorAll('.testimonial-slide');
-
-        function changeTestimonial(direction) {
-            testimonials[currentTestimonial].classList.remove('active');
-            currentTestimonial = (currentTestimonial + direction + testimonials.length) % testimonials.length;
-            testimonials[currentTestimonial].classList.add('active');
-        }
-
-        // Auto-play testimonials
-        setInterval(() => {
-            changeTestimonial(1);
-        }, 5000);
-
-        // Form Submissions
-        document.getElementById('bookingForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('bookingName').value;
-            const service = document.getElementById('bookingService').value;
-            
-            showToast(`Agendamento confirmado, ${name}! ${service}.`);
-            
-            this.reset();
-        });
-
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('contactName').value;
-            
-            showToast(`Mensagem enviada com sucesso, ${name}! Retornaremos em breve.`);
-            
-            this.reset();
-        });
-
-        // Toast Notification
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.classList.add('show');
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-
-        // Gallery Lightbox
-        document.querySelectorAll('.gallery-item').forEach(item => {
-            item.addEventListener('click', function() {
-                const img = this.querySelector('img');
-                if (img && img.style.display !== 'none') {
-                    window.open(img.src, '_blank');
-                }
-            });
-        });
-    </script>
 </body>
 </html>
