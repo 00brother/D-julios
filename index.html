@@ -3,29 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barbearia do Chefe | Corte Masculino</title>
+    <title>Barbearia Premium | Corte Masculino</title>
     <style>
         /* ============ RESET & VARIÁVEIS ============ */
         :root {
-            --branco: #FFFFFF;      /* 60% */
-            --preto: #111111;       /* 30% */
-            --dourado: #D4AF37;     /* 10% (Dourado verdadeiro) */
-            --cinza-claro: #F5F5F5;
-            --cinza-medio: #333333;
+            --branco: #FFFFFF;
+            --preto: #0A0A0A;
+            --dourado: #D4AF37;
+            --dourado-claro: #F4E4A6;
+            --cinza-claro: #F8F8F8;
+            --cinza-medio: #444444;
+            --sombra: 0 20px 60px rgba(0,0,0,0.15);
+            --transicao: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        html {
             scroll-behavior: smooth;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             background-color: var(--branco);
             color: var(--preto);
-            line-height: 1.6;
+            line-height: 1.7;
+            overflow-x: hidden;
         }
 
         /* ============ TELA DE ABERTURA (SPLASH) ============ */
@@ -35,225 +42,494 @@
             left: 0;
             width: 100%;
             height: 100vh;
-            background-color: var(--preto);
+            background: linear-gradient(135deg, #0A0A0A 0%, #1a1a1a 50%, #0A0A0A 100%);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            transition: opacity 0.8s ease-in-out, visibility 0.8s;
+            transition: opacity 1s ease-in-out, visibility 1s;
+            cursor: pointer;
         }
+        
+        #splash::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212,175,55,0.1) 0%, transparent 70%);
+            animation: rotate 10s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
         #splash img {
-            width: min(400px, 80%);
+            width: min(500px, 80%);
             height: auto;
-            filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.6));
-            animation: pulse 2s infinite;
+            position: relative;
+            z-index: 1;
+            filter: drop-shadow(0 0 60px rgba(212, 175, 55, 0.6));
+            animation: pulse 3s ease-in-out infinite;
         }
+        
         #splash.hidden {
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
         }
+        
         @keyframes pulse {
-            0% { transform: scale(0.95); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(0.95); }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
         }
 
         /* ============ BARRA DE NAVEGAÇÃO ============ */
         header {
-            background-color: rgba(255, 255, 255, 0.95);
-            border-bottom: 3px solid var(--dourado);
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
             position: sticky;
             top: 0;
             z-index: 1000;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 5%;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px 5%;
+            transition: var(--transicao);
         }
+        
+        header.scrolled {
+            padding: 10px 5%;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+        
         .logo-header {
+            height: 60px;
+            width: auto;
+            transition: var(--transicao);
+        }
+        
+        header.scrolled .logo-header {
             height: 50px;
         }
+        
         .btn-zap-header {
-            background-color: var(--dourado);
+            background: var(--dourado);
             color: var(--preto);
-            padding: 10px 20px;
-            border-radius: 30px;
+            padding: 12px 30px;
+            border-radius: 50px;
             text-decoration: none;
-            font-weight: bold;
-            transition: 0.3s;
+            font-weight: 700;
+            transition: var(--transicao);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border: 2px solid var(--dourado);
         }
+        
         .btn-zap-header:hover {
-            background-color: var(--preto);
+            background: transparent;
             color: var(--dourado);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        /* ============ BANNER PRINCIPAL ============ */
+        .banner {
+            background: linear-gradient(135deg, #0A0A0A 0%, #1a1a1a 100%);
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212,175,55,0.15) 0%, transparent 50%);
+            animation: rotate 20s linear infinite;
+        }
+        
+        .banner-content {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            padding: 60px 20px;
+        }
+        
+        .banner img.logo-banner {
+            width: min(350px, 70%);
+            height: auto;
+            margin-bottom: 40px;
+            animation: float 4s ease-in-out infinite;
+            filter: drop-shadow(0 0 50px rgba(212, 175, 55, 0.4));
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .banner-texto {
+            color: var(--branco);
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            font-weight: 300;
+        }
+        
+        .banner-destaque {
+            background: linear-gradient(135deg, var(--dourado) 0%, var(--dourado-claro) 100%);
+            color: var(--preto);
+            padding: 25px 40px;
+            border-radius: 20px;
+            font-weight: 900;
+            font-size: 1.8rem;
+            display: inline-block;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.4);
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0%, 100% { box-shadow: 0 20px 40px rgba(212, 175, 55, 0.4); }
+            50% { box-shadow: 0 20px 60px rgba(212, 175, 55, 0.8); }
         }
 
         /* ============ SEÇÕES GERAIS ============ */
         .container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 80px 20px;
         }
-        h2 {
-            font-size: 2.5rem;
+        
+        .section-title {
+            font-size: 3rem;
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 60px;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--preto);
+            letter-spacing: 5px;
+            position: relative;
+            font-weight: 900;
         }
-        h2 span {
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 5px;
+            background: linear-gradient(90deg, transparent, var(--dourado), transparent);
+            border-radius: 5px;
+        }
+        
+        .section-title span {
             color: var(--dourado);
         }
 
-        /* ============ SEÇÃO HERO (O BARBEIRO) ============ */
-        .hero {
-            background-color: var(--branco);
-            text-align: center;
-            padding: 60px 20px;
-        }
-        .hero img.logo-grande {
-            width: 180px;
-            margin-bottom: 20px;
-        }
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-        }
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin: 0 auto 30px;
-            color: var(--cinza-medio);
-        }
-        .destaque-sem-agenda {
-            background-color: var(--preto);
-            color: var(--branco);
-            padding: 15px;
-            border-radius: 10px;
-            font-weight: bold;
-            font-size: 1.5rem;
-            display: inline-block;
-            border-left: 6px solid var(--dourado);
-        }
-
-        /* ============ SEÇÃO PREÇOS ============ */
+        /* ============ CARDS DE PREÇOS ============ */
         .precos {
-            background-color: var(--branco);
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 30px;
+            gap: 40px;
         }
+        
         .card-preco {
+            background: var(--branco);
             border: 2px solid var(--preto);
-            padding: 30px;
-            width: 250px;
+            padding: 50px 40px;
+            width: 350px;
             text-align: center;
-            border-radius: 10px;
-            transition: 0.3s;
-            background-color: var(--branco);
+            border-radius: 30px;
+            transition: var(--transicao);
+            position: relative;
+            overflow: hidden;
         }
+        
+        .card-preco::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(212,175,55,0.1), transparent);
+            transform: rotate(45deg);
+            transition: var(--transicao);
+        }
+        
+        .card-preco:hover::before {
+            animation: shine-card 1.5s;
+        }
+        
+        @keyframes shine-card {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+        
         .card-preco:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+            transform: translateY(-15px);
+            box-shadow: var(--sombra);
             border-color: var(--dourado);
         }
-        .card-preco h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
+        
+        .card-icone {
+            font-size: 4rem;
+            margin-bottom: 20px;
         }
+        
+        .card-preco h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
         .preco {
-            font-size: 3rem;
+            font-size: 4.5rem;
             font-weight: 900;
             color: var(--dourado);
+            margin: 20px 0;
+            line-height: 1;
         }
+        
         .preco small {
-            font-size: 1rem;
+            font-size: 1.5rem;
             color: var(--preto);
+        }
+        
+        .card-preco p {
+            color: var(--cinza-medio);
+            font-size: 1.1rem;
+            margin-top: 20px;
         }
 
         /* ============ SEÇÃO LOCALIZAÇÃO ============ */
         .localizacao {
-            background-color: var(--cinza-claro);
-            text-align: center;
+            background: var(--cinza-claro);
+            padding: 80px 0;
         }
+        
         .endereco-box {
-            background-color: var(--branco);
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-            border-bottom: 5px solid var(--dourado);
+            background: var(--branco);
+            padding: 60px;
+            border-radius: 30px;
+            box-shadow: var(--sombra);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
+        
+        .endereco-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--dourado), var(--preto), var(--dourado));
+        }
+        
+        .endereco-icone {
+            font-size: 5rem;
+            margin-bottom: 30px;
+        }
+        
+        .endereco-titulo {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        
+        .endereco-texto {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
         .btn-mapa {
-            background-color: var(--preto);
+            background: var(--preto);
             color: var(--branco);
-            padding: 15px 30px;
+            padding: 20px 50px;
             border-radius: 50px;
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 700;
             display: inline-block;
-            margin-top: 15px;
-            transition: 0.3s;
+            margin-top: 40px;
+            transition: var(--transicao);
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: 2px solid var(--preto);
         }
+        
         .btn-mapa:hover {
-            background-color: var(--dourado);
+            background: var(--dourado);
             color: var(--preto);
+            border-color: var(--dourado);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
         }
 
-        /* ============ RODAPÉ / HORÁRIOS ============ */
+        /* ============ SEÇÃO WHATSAPP ============ */
+        .whatsapp-section {
+            background: linear-gradient(135deg, #0A0A0A 0%, #1a1a1a 100%);
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .whatsapp-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(37, 211, 102, 0.1) 0%, transparent 70%);
+            animation: rotate 25s linear infinite;
+        }
+        
+        .whatsapp-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .whatsapp-content h2 {
+            color: var(--branco);
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+        }
+        
+        .whatsapp-content p {
+            color: var(--branco);
+            font-size: 1.3rem;
+            margin-bottom: 50px;
+        }
+        
+        .btn-whatsapp {
+            background: #25D366;
+            color: white;
+            padding: 25px 60px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 1.3rem;
+            display: inline-block;
+            transition: var(--transicao);
+            border: 3px solid white;
+            box-shadow: 0 20px 40px rgba(37, 211, 102, 0.3);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .btn-whatsapp:hover {
+            background: var(--branco);
+            color: #25D366;
+            border-color: #25D366;
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 30px 60px rgba(37, 211, 102, 0.5);
+        }
+
+        /* ============ RODAPÉ ============ */
         footer {
-            background-color: var(--preto);
+            background: var(--preto);
             color: var(--branco);
             text-align: center;
-            padding: 40px 20px;
-            border-top: 5px solid var(--dourado);
+            padding: 60px 20px;
+            position: relative;
         }
+        
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
         .horario {
-            font-size: 1.8rem;
-            font-weight: bold;
-            letter-spacing: 1px;
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            margin: 20px 0;
         }
+        
         .horario span {
             color: var(--dourado);
         }
-        .btn-whatsapp {
-            background-color: #25D366;
-            color: white;
-            padding: 15px 40px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.2rem;
+        
+        .footer-badge {
             display: inline-block;
-            margin-top: 20px;
-            transition: 0.3s;
-            border: 2px solid white;
+            background: linear-gradient(135deg, var(--dourado) 0%, var(--dourado-claro) 100%);
+            color: var(--preto);
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-weight: 900;
+            font-size: 1.5rem;
+            margin: 30px 0;
+            letter-spacing: 2px;
         }
-        .btn-whatsapp:hover {
-            background-color: var(--branco);
-            color: #25D366;
-            border-color: #25D366;
-        }
+        
         .creditos {
-            margin-top: 30px;
-            font-size: 0.8rem;
-            opacity: 0.6;
+            margin-top: 40px;
+            opacity: 0.5;
+            font-size: 0.9rem;
         }
 
         /* ============ RESPONSIVIDADE ============ */
         @media (max-width: 768px) {
-            h2 {
-                font-size: 1.8rem;
-            }
-            .hero h1 {
+            .section-title {
                 font-size: 2rem;
+                letter-spacing: 3px;
             }
+            
+            .banner-destaque {
+                font-size: 1.2rem;
+                padding: 15px 25px;
+                letter-spacing: 1px;
+            }
+            
+            .banner-texto {
+                font-size: 1.1rem;
+            }
+            
             .card-preco {
                 width: 100%;
-                max-width: 300px;
+                max-width: 350px;
+                padding: 30px 20px;
+            }
+            
+            .preco {
+                font-size: 3.5rem;
+            }
+            
+            .endereco-box {
+                padding: 30px 20px;
+            }
+            
+            .whatsapp-content h2 {
+                font-size: 2rem;
+            }
+            
+            .btn-whatsapp {
+                padding: 20px 40px;
+                font-size: 1rem;
+            }
+            
+            .horario {
+                font-size: 1.8rem;
             }
         }
     </style>
@@ -262,102 +538,110 @@
 
 <!-- ========== TELA DE ABERTURA ========== -->
 <div id="splash">
-    <img src="logo.png" alt="Logo do Salão">
-    <!-- Se quiser um botão manual, descomente abaixo -->
-    <!-- <button onclick="fecharSplash()">Entrar</button> -->
+    <img src="logo.png" alt="Logo">
 </div>
 
 <!-- ========== MENU FIXO ========== -->
-<header>
+<header id="header">
     <img src="logo.png" alt="Logo" class="logo-header">
     <a href="https://wa.me/55SEUNUMEROAQUI?text=Olá!%20Vim%20pelo%20site%20e%20quero%20cortar%20cabelo." class="btn-zap-header" target="_blank">
-        📱 Agendar Agora
+        WhatsApp
     </a>
 </header>
 
-<!-- ========== CONTEÚDO PRINCIPAL ========== -->
-<main>
-    <!-- HERO: O Barbeiro -->
-    <section class="hero">
-        <img src="logo.png" alt="Logo do Salão" class="logo-grande">
-        <h1>Barbearia do Chefe</h1>
-        <p>Atendimento exclusivo com <strong>apenas 1 barbeiro profissional</strong>.<br>Foco total no seu estilo, sem pressa e sem fila de espera.</p>
-        <div class="destaque-sem-agenda">
-            ✂️ CHEGOU, CORTOU! (Sem agendamento)
+<!-- ========== BANNER PRINCIPAL ========== -->
+<section class="banner">
+    <div class="banner-content">
+        <img src="logo.png" alt="Logo" class="logo-banner">
+        <p class="banner-texto">Experiência Premium em Cortes Masculinos</p>
+        <div class="banner-destaque">
+            ✂️ CHEGOU, CORTOU! ✂️
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- SERVIÇOS E PREÇOS -->
-    <section class="container">
-        <h2>Valores <span>Transparentes</span></h2>
-        <div class="precos">
-            <div class="card-preco">
-                <h3>Corte de Cabelo</h3>
-                <div class="preco">R$ 35<small>,00</small></div>
-                <p>Tesoura ou máquina, com finalização.</p>
-            </div>
-            <div class="card-preco">
-                <h3>Cabelo + Barba</h3>
-                <div class="preco">R$ 40<small>,00</small></div>
-                <p>O combo completo para o visual afiado.</p>
-            </div>
+<!-- ========== SERVIÇOS E PREÇOS ========== -->
+<section class="container">
+    <h2 class="section-title">Nossos <span>Serviços</span></h2>
+    <div class="precos">
+        <div class="card-preco">
+            <div class="card-icone">💈</div>
+            <h3>Corte de Cabelo</h3>
+            <div class="preco">R$ 35<small>,00</small></div>
+            <p>Tesoura ou máquina<br>Finalização premium<br>Produtos importados</p>
         </div>
-    </section>
-
-    <!-- LOCALIZAÇÃO -->
-    <section class="localizacao">
-        <div class="container">
-            <h2>Onde <span>Estamos</span></h2>
-            <div class="endereco-box">
-                <p style="font-size: 1.5rem; font-weight: bold;">📍 Endereço do Salão</p>
-                <p style="font-size: 1.2rem;">Rua Exemplo, 123 - Bairro - Cidade/UF</p>
-                <p style="font-size: 1rem; margin-top: 10px;">Próximo ao ponto de referência.</p>
-                <!-- Substitua o link abaixo pelo link real do Google Maps -->
-                <a href="https://www.google.com/maps/search/?api=1&query=SUA+LOCALIZACAO" class="btn-mapa" target="_blank">
-                    🗺️ Ver no Google Maps
-                </a>
-            </div>
+        <div class="card-preco">
+            <div class="card-icone">🪒</div>
+            <h3>Cabelo + Barba</h3>
+            <div class="preco">R$ 40<small>,00</small></div>
+            <p>Corte completo<br>Barba desenhada<br>Toalha quente</p>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- CHAMADA PARA WHATSAPP -->
-    <section class="container" style="text-align: center;">
-        <h2>Prefere <span>Mandar Mensagem?</span></h2>
-        <p style="font-size: 1.2rem; margin-bottom: 30px;">Clique no botão abaixo e fale direto com o barbeiro no WhatsApp.<br> Tire dúvidas ou peça a localização.</p>
+<!-- ========== LOCALIZAÇÃO ========== -->
+<section class="localizacao">
+    <div class="container">
+        <h2 class="section-title">Nossa <span>Localização</span></h2>
+        <div class="endereco-box">
+            <div class="endereco-icone">📍</div>
+            <div class="endereco-titulo">Estamos Aqui</div>
+            <p class="endereco-texto">Rua Exemplo, 123 - Bairro - Cidade/UF</p>
+            <p style="font-size: 1.2rem; color: var(--cinza-medio);">Próximo ao ponto de referência</p>
+            <!-- Substitua o link abaixo pelo link real do Google Maps -->
+            <a href="https://www.google.com/maps/search/?api=1&query=SUA+LOCALIZACAO" class="btn-mapa" target="_blank">
+                🗺️ Ver no Google Maps
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ========== SEÇÃO WHATSAPP ========== -->
+<section class="whatsapp-section">
+    <div class="whatsapp-content">
+        <h2>Fale Conosco</h2>
+        <p>Atendimento rápido e direto pelo WhatsApp</p>
         <!-- Substitua SEUNUMEROAQUI pelo número com DDD, ex: 5511999999999 -->
         <a href="https://wa.me/55SEUNUMEROAQUI?text=Olá!%20Quero%20cortar%20cabelo%20hoje.%20Está%20aberto%3F" class="btn-whatsapp" target="_blank">
             💬 Chamar no WhatsApp
         </a>
-    </section>
-</main>
+    </div>
+</section>
 
-<!-- RODAPÉ -->
+<!-- ========== RODAPÉ ========== -->
 <footer>
-    <p style="font-size: 1.5rem; margin-bottom: 10px;">⏰ Horário de Funcionamento</p>
-    <p class="horario">Segunda a <span>Sábado</span></p>
-    <p style="margin-bottom: 20px;">(Chegou, Cortou - Sem agendamento)</p>
-    <p style="font-size: 2rem; font-weight: 900; color: var(--dourado);">100% PRESENCIAL</p>
-    <p style="margin-top: 20px; font-style: italic;">"Aqui o cliente não espera, ele chega e sai na régua."</p>
-    <p class="creditos">© 2023 Barbearia do Chefe. Todos os direitos reservados.</p>
+    <div class="footer-content">
+        <p style="font-size: 1.5rem; margin-bottom: 30px;">⏰ HORÁRIO DE FUNCIONAMENTO</p>
+        <p class="horario">Segunda a <span>Sábado</span></p>
+        <p style="margin: 20px 0; font-size: 1.2rem;">Chegou, Cortou - Sem agendamento</p>
+        <div class="footer-badge">
+            100% PRESENCIAL
+        </div>
+        <p style="margin-top: 30px; font-style: italic; font-size: 1.3rem;">"Aqui o cliente não espera, ele chega e sai na régua."</p>
+        <p class="creditos">© 2024 - Todos os direitos reservados</p>
+    </div>
 </footer>
 
 <script>
     // ========== CONTROLE DA TELA DE ABERTURA ==========
     window.addEventListener('load', function() {
-        // A splash fica visível por 2.5 segundos e depois some automaticamente
         setTimeout(() => {
             document.getElementById('splash').classList.add('hidden');
-        }, 2500);
+        }, 3000);
     });
 
-    // Função caso queira usar botão manual
-    function fecharSplash() {
-        document.getElementById('splash').classList.add('hidden');
-    }
-
-    // (Opcional) Fechar a splash se o usuário clicar em qualquer lugar
     document.getElementById('splash').addEventListener('click', function() {
         this.classList.add('hidden');
+    });
+
+    // ========== EFEITO SCROLL NO MENU ==========
+    window.addEventListener('scroll', function() {
+        const header = document.getElementById('header');
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
     });
 </script>
 
