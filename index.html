@@ -25,6 +25,14 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
         body {
             font-family: 'Arial', 'Helvetica', sans-serif;
             background-color: var(--branco);
@@ -39,6 +47,7 @@
             left: 0;
             width: 100%;
             height: 100vh;
+            height: 100dvh; /* Usa altura dinâmica para mobile */
             background: #000000; /* Fundo 100% preto */
             display: flex;
             justify-content: center;
@@ -56,10 +65,14 @@
         }
 
         #splash img {
-            width: min(400px, 80%);
+            width: min(300px, 60%);
             height: auto;
-            /* Sem animação de pulso e sem aura dourada */
             display: block;
+            /* Centralização perfeita */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         #splash.hidden {
@@ -554,6 +567,10 @@
 
         /* ============ RESPONSIVIDADE ============ */
         @media (max-width: 768px) {
+            #splash img {
+                width: min(250px, 50%);
+            }
+
             .section-title {
                 font-size: 1.5rem;
                 letter-spacing: 2px;
@@ -634,6 +651,10 @@
         }
 
         @media (max-width: 480px) {
+            #splash img {
+                width: min(200px, 40%);
+            }
+
             .banner {
                 height: 400px;
             }
