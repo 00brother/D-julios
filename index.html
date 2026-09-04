@@ -90,37 +90,136 @@
             border-color: var(--dourado);
         }
 
-        /* ============ BANNER ============ */
+        /* ============ BANNER ROTATIVO ============ */
         .banner {
-            background-color: var(--preto);
-            padding: 80px 20px;
-            text-align: center;
-            border-bottom: 5px solid var(--dourado);
+            position: relative;
+            height: 600px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .banner img {
+        .banner-slides {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .banner-slide {
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 80px 20px;
+        }
+
+        .banner-slide:nth-child(1) {
+            background: linear-gradient(135deg, #0A0A0A 0%, #1a1a1a 50%, #0A0A0A 100%);
+        }
+
+        .banner-slide:nth-child(2) {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0A0A0A 50%, #1a1a1a 100%);
+        }
+
+        .banner-slide:nth-child(3) {
+            background: linear-gradient(135deg, #0A0A0A 0%, #2a2a2a 50%, #0A0A0A 100%);
+        }
+
+        .banner-content {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .banner-content img {
             width: min(300px, 70%);
             height: auto;
             margin-bottom: 30px;
         }
 
-        .banner h1 {
+        .banner-content h1 {
             color: var(--branco);
-            font-size: 2rem;
-            margin-bottom: 15px;
-            font-weight: normal;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+            letter-spacing: 2px;
         }
 
         .banner-destaque {
             background-color: var(--dourado);
             color: var(--preto);
             display: inline-block;
-            padding: 15px 30px;
+            padding: 15px 40px;
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             border-radius: 5px;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
+        }
+
+        /* Indicadores do banner */
+        .banner-indicators {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 3;
+        }
+
+        .banner-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--branco);
+            cursor: pointer;
+            border: 2px solid var(--dourado);
+            opacity: 0.5;
+        }
+
+        .banner-dot.active {
+            background-color: var(--dourado);
+            opacity: 1;
+        }
+
+        /* Setas de navegação */
+        .banner-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: var(--dourado);
+            width: 50px;
+            height: 50px;
+            border: 2px solid var(--dourado);
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3;
+        }
+
+        .banner-arrow:hover {
+            background-color: var(--dourado);
+            color: var(--preto);
+        }
+
+        .banner-arrow.left {
+            left: 20px;
+        }
+
+        .banner-arrow.right {
+            right: 20px;
         }
 
         /* ============ SEÇÕES ============ */
@@ -134,7 +233,7 @@
             text-align: center;
             font-size: 2.5rem;
             font-weight: bold;
-            margin-bottom: 50px;
+            margin-bottom: 20px;
             text-transform: uppercase;
             letter-spacing: 3px;
             color: var(--preto);
@@ -352,11 +451,46 @@
             .section-title {
                 font-size: 1.5rem;
                 letter-spacing: 2px;
-                margin-bottom: 30px;
+                margin-bottom: 20px;
             }
 
             .container {
                 padding: 40px 15px;
+            }
+
+            /* Banner */
+            .banner {
+                height: 400px;
+            }
+
+            .banner-content img {
+                width: min(180px, 50%);
+                margin-bottom: 20px;
+            }
+
+            .banner-content h1 {
+                font-size: 1.5rem;
+                letter-spacing: 1px;
+            }
+
+            .banner-destaque {
+                font-size: 1rem;
+                padding: 12px 25px;
+                letter-spacing: 2px;
+            }
+
+            .banner-arrow {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+
+            .banner-arrow.left {
+                left: 10px;
+            }
+
+            .banner-arrow.right {
+                right: 10px;
             }
 
             /* Cards lado a lado */
@@ -387,25 +521,6 @@
                 padding-top: 10px;
             }
 
-            .banner {
-                padding: 40px 15px;
-            }
-
-            .banner img {
-                width: min(200px, 60%);
-                margin-bottom: 20px;
-            }
-
-            .banner h1 {
-                font-size: 1.2rem;
-            }
-
-            .banner-destaque {
-                font-size: 0.9rem;
-                padding: 10px 20px;
-                letter-spacing: 1px;
-            }
-
             .logo-header {
                 height: 40px;
             }
@@ -422,6 +537,23 @@
         }
 
         @media (max-width: 480px) {
+            .banner {
+                height: 300px;
+            }
+
+            .banner-content img {
+                width: min(150px, 40%);
+            }
+
+            .banner-content h1 {
+                font-size: 1.2rem;
+            }
+
+            .banner-destaque {
+                font-size: 0.8rem;
+                padding: 10px 20px;
+            }
+
             .card-preco {
                 padding: 15px 10px;
             }
@@ -455,12 +587,44 @@
     </a>
 </header>
 
-<!-- BANNER PRINCIPAL -->
-<section class="banner">
-    <img src="logo.png" alt="Logo">
-    <h1>Cortes Masculinos com Excelência</h1>
-    <div class="banner-destaque">
-        Chegou, Cortou!
+<!-- BANNER ROTATIVO -->
+<section class="banner" id="banner">
+    <div class="banner-slides" id="bannerSlides">
+        <!-- Slide 1 -->
+        <div class="banner-slide">
+            <div class="banner-content">
+                <img src="logo.png" alt="Logo">
+                <h1>Cortes Masculinos com Excelência</h1>
+                <div class="banner-destaque">Chegou, Cortou!</div>
+            </div>
+        </div>
+        <!-- Slide 2 -->
+        <div class="banner-slide">
+            <div class="banner-content">
+                <img src="logo.png" alt="Logo">
+                <h1>Atendimento Exclusivo e Personalizado</h1>
+                <div class="banner-destaque">Sem Agendamento</div>
+            </div>
+        </div>
+        <!-- Slide 3 -->
+        <div class="banner-slide">
+            <div class="banner-content">
+                <img src="logo.png" alt="Logo">
+                <h1>Qualidade e Tradição em Cortes</h1>
+                <div class="banner-destaque">Segunda a Sábado</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Setas de navegação -->
+    <button class="banner-arrow left" onclick="mudarSlide(-1)">❮</button>
+    <button class="banner-arrow right" onclick="mudarSlide(1)">❯</button>
+
+    <!-- Indicadores -->
+    <div class="banner-indicators" id="bannerIndicators">
+        <span class="banner-dot active" onclick="irParaSlide(0)"></span>
+        <span class="banner-dot" onclick="irParaSlide(1)"></span>
+        <span class="banner-dot" onclick="irParaSlide(2)"></span>
     </div>
 </section>
 
@@ -587,6 +751,57 @@
 
     document.getElementById('splash').addEventListener('click', function() {
         this.classList.add('hidden');
+    });
+
+    // Controle do Banner Rotativo
+    let slideAtual = 0;
+    const slides = document.getElementById('bannerSlides');
+    const dots = document.querySelectorAll('.banner-dot');
+    const totalSlides = 3;
+    let autoSlideInterval;
+
+    function mudarSlide(direcao) {
+        slideAtual = (slideAtual + direcao + totalSlides) % totalSlides;
+        atualizarBanner();
+    }
+
+    function irParaSlide(index) {
+        slideAtual = index;
+        atualizarBanner();
+    }
+
+    function atualizarBanner() {
+        slides.style.transform = `translateX(-${slideAtual * 100}%)`;
+        
+        dots.forEach((dot, index) => {
+            if (index === slideAtual) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
+            }
+        });
+        
+        reiniciarAutoSlide();
+    }
+
+    function reiniciarAutoSlide() {
+        clearInterval(autoSlideInterval);
+        autoSlideInterval = setInterval(() => {
+            slideAtual = (slideAtual + 1) % totalSlides;
+            atualizarBanner();
+        }, 5000); // Troca a cada 5 segundos
+    }
+
+    // Iniciar auto slide
+    reiniciarAutoSlide();
+
+    // Pausar auto slide quando mouse estiver sobre o banner
+    document.getElementById('banner').addEventListener('mouseenter', () => {
+        clearInterval(autoSlideInterval);
+    });
+
+    document.getElementById('banner').addEventListener('mouseleave', () => {
+        reiniciarAutoSlide();
     });
 </script>
 
